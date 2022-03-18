@@ -1,0 +1,113 @@
+using System;
+
+namespace Hello
+{
+    internal class OpdrachtB
+    {
+       
+        // implementeer de DemandCookie()-methode, die een koekje eist (iets van 
+        // "Geef me een koekje! Ik wil een koekje!", waarop de gebruiker een woord intypt
+        // (gebruik Console.ReadLine();, bv gift = Console.ReadLine();
+        // Als het gegevene GEEN koekje is, maar bijvoorbeeld een fiets, druk af
+        // "Ik wil geen fiets! Ik wil een koekje!" - en ga weer terug naar het koekjes vragen
+        // Zeg anders "Dank je! Mjam mjam mjam" en verlaat/beëindig de methode
+        public static void DemandCookie()
+        {
+            
+        }
+        
+
+        public class ToyCar
+        {
+            // houd deze code (de _charge, _distanceDriven fields en ToyCar constructor hetzelfde)
+            private int _charge; // in percent, 0-100
+            private int _distanceDriven; // in meters
+
+            private ToyCar(int charge, int distanceDriven)
+            {
+                _charge = charge;
+                _distanceDriven = distanceDriven;
+            }
+
+            // opgave B1: implementeer de Buy() methode zodat ToyCar.Buy() een speelgoedauto oplevert
+            // met volle (100% = 100) charge en 0 afgelegde afstand.
+            public static ToyCar Buy()
+            {
+                throw new NotImplementedException("Implement the Buy() method!");
+            }
+
+            // opgave B2: implementeer de Report() methode die laat zien wat de charge van het autootje is,
+            // en hoever hij gereden heeft, iets als "De auto heeft 0 meter gereden, en is voor 100% geladen"
+            public void Report()
+            {
+                throw new NotImplementedException("Implement the Report() method!");
+            }
+
+            // opgave B3: implementeer de Drive() methode die, als de charge groter is dan 0, de auto 20 meter 
+            // verder laat rijden. Als de charge 0 is, moet niks veranderen.
+            public void Drive()
+            {
+                throw new NotImplementedException("Implement the Drive() method!");
+            }
+
+            public static void Test()
+            {
+                var testCar = Buy();
+                for (int i = 0; i <= 110; i++)
+                {
+                    if (i % 10 == 0) testCar.Report();
+                    testCar.Drive();
+                }
+            }
+
+        }
+
+        internal class BirdCounter
+        {
+            private int[] _sightings; // aantal vogels dat gespot is, van de eerste tot de laatste dag
+
+            public BirdCounter(int[] sightings)
+            {
+                _sightings = sightings;
+            }
+
+            // implemententeer GetCountsOnDay, dat het aantal vogels op dag "day" teruggeeft
+            // (de eerste dag is dag 0)
+            public int GetCountsOnDay(int day)
+            {
+                throw new NotImplementedException();
+            }
+
+            // implementeer GetTotalDays, welke het aantal dagen teruggeeft dat je vogels hebt gespot
+            public int GetTotalDays()
+            {
+                throw new NotImplementedException();
+            }
+
+            // implementeer GetCountYesterday, welke teruggeeft welke je op de meest recente (laatste) dag zag
+            public int GetCountYesterday()
+            {
+                throw new NotImplementedException();
+            }
+
+            // implementeer MostSuccessfulDayReport, wat afbeeldt op welke dag je de meeste vogels zag, en
+            // hoeveel vogels dat waren.
+            public void MostSuccessfulDayReport()
+            {
+                throw new NotImplementedException();
+            }
+
+            // implementeer TotalSightings, wat teruggeeft hoeveel vogels je in het totaal hebt gezien.
+            public int TotalSightings()
+            {
+                throw new NotImplementedException();
+            }
+
+            // implementeer CountBusyDays, wat teruggeeft op hoeveel dagen je vijf vogels (of meer) hebt gespot.
+            public int CountBusyDays()
+            {
+                throw new NotImplementedException();
+            }
+        }
+    }
+}

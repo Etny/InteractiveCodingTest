@@ -4,8 +4,9 @@
     <TargetFramework>net48</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="./TestCode/StageA.txt"/>
+    <EmbeddedResource Include="./Templates/StageA.txt"/>
+    <EmbeddedResource Include="./Templates/StageB.txt"/>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0-1.final"/>
-    <PackageReference Include="Json.Net" Version="1.0.33"/>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
   </ItemGroup>
 </Project>
