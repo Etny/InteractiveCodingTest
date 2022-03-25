@@ -24,6 +24,7 @@ namespace DynamicCheck.Testing {
                     _file = CurrentStage.CreateFile();
                 
                 if(_file.Poll() && Update()) {
+                    UX.ShowStageComplete(CurrentStage.Name);
                     stage_index++;
                     _file = null;
                 } else
@@ -34,13 +35,14 @@ namespace DynamicCheck.Testing {
 
         private bool Update() {
             Console.Clear();
-            UX.WriteFormatted($"Vooruitgang in file <DarkMagenta>{CurrentStage.FileName}</>:\n\n");            
+            UX.WriteFormatted($"Vooruitgang in File <DarkMagenta>{CurrentStage.FileName}.cs</> (save de file om verandering door te geven):\n\n");            
 
             var context = new TestContext();
 
             try{
-                context.Assembly = AssemblyUtils.CompileStage(_file.FilePath);
-                context.Root = CSharpSyntaxTree.ParseText(_file.Contents()).GetRoot();
+                var (tree, assembly) = AssemblyUtils.CompileStage(_file.FilePath);
+                context.Assembly = assembly;
+                context.Root = tree.GetRoot();
                 context.Type = context.Assembly.FindType(CurrentStage.TypeName);
             } catch(Exception e) {
                 UX.WriteFormatted($"   <DarkRed>Er is een error in je file: <Red>{e.Message}</>.\n");

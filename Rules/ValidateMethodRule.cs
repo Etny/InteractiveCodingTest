@@ -13,15 +13,19 @@ namespace DynamicCheck.Rules {
     [RuleTag("validate_method")]
     internal class ValidateMethodRule : IRule
     {
-        public IList<TruthRecord> TruthTable { get; set; }
+        public IList<TruthRecord> TruthTable { get; set; } = null;
+        public JArray In { get; set; } = null;
+        public JToken Out { get; set; } = null;
 
         public bool Validate(TestContext context)
         {
             var arg_types = context.Method.GetParameters().Select(p => p.ParameterType).ToArray();
             var out_type = context.Method.ReturnType;
 
+            TruthTable ??= new List<TruthRecord> { new TruthRecord { In = In, Out = Out } };
+            
             foreach(var truth in TruthTable) {
-                var result = context.Method.Invoke(null, truth.ConvertedIn(arg_types));
+                var result = context.Method.InvokeWithTimeout(context.Instance, truth.ConvertedIn(arg_types));
                 if(result == null || !truth.CompareOut(result, out_type))
                     return false;
             }

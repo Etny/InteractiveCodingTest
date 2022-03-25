@@ -23,6 +23,18 @@ namespace DynamicCheck {
             while(ReadKey().Key != ConsoleKey.Enter) {}
         }
 
+        public static void ShowStageComplete(string stageName) {
+            Clear();
+            WriteFormatted($@"
+            
+                    Gefeliciteerd, je bent klaar met <DarkMagenta>{stageName}</>!
+
+            Druk op <DarkCyan>Enter</> om te met het volgende onderdeel te beginnen ...
+            ");
+
+            while(ReadKey().Key != ConsoleKey.Enter) {}
+        }
+
         public static void WriteFormatted(string s) {
             var parts = s.Split('<','>');
             

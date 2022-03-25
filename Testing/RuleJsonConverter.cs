@@ -5,9 +5,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using DynamicCheck.Rules;
 
-namespace DynamicCheck.Rules {
-    internal class RuleJsonConverter : JsonConverter
+namespace DynamicCheck.Testing {
+    internal class RuleDecJsonConverter : JsonConverter
     {
         private static readonly Lazy<Dictionary<string, Type>> Rules = new Lazy<Dictionary<string, Type>>(() => 
             Assembly.GetExecutingAssembly()
@@ -20,7 +21,7 @@ namespace DynamicCheck.Rules {
         );
 
         public override bool CanConvert(Type objectType)
-            => typeof(IRule).IsAssignableFrom(objectType);
+            => typeof(RuleDec).IsAssignableFrom(objectType);
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
@@ -32,17 +33,28 @@ namespace DynamicCheck.Rules {
             JObject obj = JObject.Load(reader);
             IRule rule = ToRule(obj);
             serializer.Populate(obj.CreateReader(), rule);
-            return rule;
+            var dec = new RuleDec { Rule = rule };
+            serializer.Populate(obj.CreateReader(), dec);
+            return dec;
         }
 
-        private IRule ToRule(JObject obj) {
+        private static IRule ToRule(JObject obj) {
             var type = (string)obj["type"];
 
-            if(Rules.Value.ContainsKey(type))
+            if(Rules.Value.ContainsKey(type)) { 
                 return (IRule)Activator.CreateInstance(Rules.Value[type]);
-            else
+            } else
                 return null;
         }
+
+        // private string ToSnakeCase(string propName) 
+        //     => char.ToLower(propName[0]) + 
+        //         string.Join("", 
+        //             propName.Substring(1).Select(c => 
+        //                 char.IsUpper(c) ? "_" + char.ToLower(c) : c + ""
+        //             )
+        //         );
+
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {

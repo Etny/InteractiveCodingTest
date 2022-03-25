@@ -1,5 +1,6 @@
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using DynamicCheck.Testing;
 using Newtonsoft.Json.Linq;
@@ -16,30 +17,26 @@ namespace DynamicCheck.Rules {
         {
             var type = context.Assembly.FindType(TypeName);
 
-            if(context.Method.ReturnType != type)
-                return false;
+            object result;
 
-            var result = context.Method.Invoke(null, Array.Empty<object>());  
+            if(context.Method.ReturnType != type) {
+                var instance = context.Instance;
+                context.Method.InvokeWithTimeout(instance, Array.Empty<object>());
+                result = instance;
+            } else 
+                result = context.Method.InvokeWithTimeout(context.Instance, Array.Empty<object>());  
+
             
             if(result == null)
                 return false;
 
             foreach(var prop in Props) {
                 var backing_prop = type.FindProperty(prop.Name);
-                if(!prop.Compare(backing_prop.GetValue(result), backing_prop.PropertyType))
+                if(!prop.ValueEquals(backing_prop.GetValue(result), backing_prop.PropertyType))
                     return false;
             }
 
             return true;
-        }
-    }
-
-    internal class PropertyDec {
-        public string Name { get; set; }
-        public JToken Value { get; set; }
-
-        public bool Compare(object value, Type type) {
-            return Value.ToObject(type).Equals(value);
         }
     }
 }

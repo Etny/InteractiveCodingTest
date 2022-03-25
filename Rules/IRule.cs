@@ -4,8 +4,8 @@ using Newtonsoft.Json;
 
 namespace DynamicCheck.Rules {
     
-    [JsonConverter(typeof(RuleJsonConverter))]
-    interface IRule {
+    
+    internal interface IRule {
         bool Validate(TestContext context);
     }
 }

@@ -14,19 +14,10 @@ namespace DynamicCheck.Rules {
 
         public bool Validate(TestContext context)
         {
-            var oldOut = Console.Out;
-            var oldIn = Console.In;
-            
             var intercept = new StringWriter();
-            Console.SetOut(intercept);
-
             var input = new StringReader(string.Join("\n", In));
-            Console.SetIn(input);
             
-            context.Method.Invoke(null, Array.Empty<object>());
-
-            Console.SetOut(oldOut);
-            Console.SetIn(oldIn);
+            context.Method.InvokeWithTimeout(context.Instance, Array.Empty<object>(), intercept, input);
 
             var output = intercept.ToString().Split('\n').Where(t => t.Trim().Length > 0);
             return output.SequenceEqual(Lines);

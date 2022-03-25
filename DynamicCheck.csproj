@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="./Templates/StageA.txt"/>
-    <EmbeddedResource Include="./Templates/StageB.txt"/>
+    <EmbeddedResource Include="./Templates/DeelA.txt"/>
+    <EmbeddedResource Include="./Templates/DeelB.txt"/>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0-1.final"/>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
   </ItemGroup>
