@@ -1,41 +1,51 @@
 
-using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Threading;
 using DynamicCheck.IO;
-using Microsoft.CodeAnalysis.CSharp;
 
 namespace DynamicCheck.Testing {
-    internal class TestManager {
-        private readonly List<Stage> _stages;
+    internal class TestRunner {
+        private readonly IList<Stage> _stages;
+        private readonly TestingLifeCycle _lifeCyle;
+        private readonly MessageWriter _ux;
+        private readonly IResultWriter _result;
+
         private int stage_index = 0;
         private TestFile _file = null;
         public Stage CurrentStage { get => _stages[stage_index]; }
 
-        public TestManager(List<Stage> stages)
+        public TestRunner(IStageProvider stageProvider, TestingLifeCycle lifeCycle, MessageWriter ux, IResultWriter result)
         {
-            _stages = stages;
+            _lifeCyle = lifeCycle;
+            _ux = ux;
+            _stages = stageProvider.GetStages();
+            _result = result;
         }
 
         public void Run() {
+            _lifeCyle.Run();
+
             while(stage_index < _stages.Count) {
-                if(_file == null)
+                if(_file == null) {
+                    _lifeCyle.StartStage(CurrentStage);
                     _file = CurrentStage.CreateFile();
-                
+                }
+
                 if(_file.Poll() && Update()) {
-                    UX.ShowStageComplete(CurrentStage.Name);
+                    _lifeCyle.EndStage(CurrentStage);
                     stage_index++;
                     _file = null;
                 } else
                     Thread.Sleep(10);    
-
             }
+
+            _lifeCyle.EndTest();
+            _result.WriteResult();
         }
 
         private bool Update() {
             Console.Clear();
-            UX.WriteFormatted($"Vooruitgang in File <DarkMagenta>{CurrentStage.FileName}.cs</> (save de file om verandering door te geven):\n\n");            
+            _ux.WriteFormatted($"Vooruitgang in File <DarkMagenta>{CurrentStage.FileName}.cs</> (save de file om verandering door te geven):\n\n");            
 
             var context = new TestContext();
 
@@ -45,14 +55,14 @@ namespace DynamicCheck.Testing {
                 context.Root = tree.GetRoot();
                 context.Type = context.Assembly.FindType(CurrentStage.TypeName);
             } catch(Exception e) {
-                UX.WriteFormatted($"   <DarkRed>Er is een error in je file: <Red>{e.Message}</>.\n");
+                _ux.WriteFormatted($"   <DarkRed>Er is een error in je file: <Red>{e.Message}</>.\n");
                 return false;
             }
 
             bool result = true;
             foreach(var (test_name, test_result) in CurrentStage.ValidateTests(context)) {
                 result = result && test_result.Kind == TestResultKind.Success;
-                UX.WriteFormatted("   " + test_name + ": " + test_result.Display + "\n");
+                _ux.WriteFormatted("   " + test_name + ": " + test_result.Display + "\n");
             }
 
             return result;

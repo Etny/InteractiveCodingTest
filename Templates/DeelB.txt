@@ -48,7 +48,7 @@ namespace Hello
 
         public class BirdCounter
         {
-            public int[] Sightings { get; set; } = new int[0];
+            public int[] Sightings { get; set; } = Array.Empty<int>();
 
             // implemententeer GetCountOnDay, dat het aantal vogels op dag "day" teruggeeft
             // (de eerste dag is dag 0)

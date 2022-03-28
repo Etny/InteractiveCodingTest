@@ -1,32 +1,25 @@
-﻿using System.IO;
-using System;
-using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿global using System;
+
+using DynamicCheck;
+using DynamicCheck.IO;
 using DynamicCheck.Testing;
-using Newtonsoft.Json.Serialization;
+using DynamicCheck.Tracking;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace DynamicCheck
-{
+using var prov = new ServiceCollection()
+                    .AddSingleton<IStageProvider>(new JsonStageProvider("./Tests.json"))
+                    .AddScoped<TestingLifeCycle>()
+                    .AddScoped<TrackingManager>()
+                    .AddScoped<IResultWriter, FileResultWriter>()
+                    .AddScoped<MessageWriter>()
+                    .AddScoped<TestRunner>()
+                    .BuildServiceProvider();
 
-    class Program {
-
-        public static void Main() {
-
-
-            var json = File.ReadAllText("./Tests.json");
-            var stages = JsonConvert.DeserializeObject<List<Testing.Stage>>(json, new JsonSerializerSettings() {
-                ContractResolver = new DefaultContractResolver {
-                    NamingStrategy = new SnakeCaseNamingStrategy()
-                }
-            });
-            
-            var manager = new TestManager(stages);
-            manager.Run();
-           
-
-            Console.WriteLine("Well Done!");
-        }
-
-    }
-    
+using(var scope = prov.CreateScope()) {
+    var init = scope.ServiceProvider.GetRequiredService<TestRunner>();
+    init.Run();
 }
+
+
+
+
