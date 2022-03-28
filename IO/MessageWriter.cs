@@ -102,9 +102,7 @@ namespace DynamicCheck {
                 line.Trim().Split('<','>').Select((l, i) => i % 2 == 0 ? l.Length : 0).Sum()
             );
 
-            var max = lengths.Max();
-            indent = Math.Max(0, indent - max);
-            var indents = lengths.Select(l => indent + ((max - l) / 2));
+            var indents = lengths.Select(l => indent - l / 2);
 
             return string.Join('\n', lines.Zip(indents).Select(l => new string(' ', l.Second) + l.First.Trim()));
         }
