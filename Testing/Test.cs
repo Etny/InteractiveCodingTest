@@ -1,7 +1,5 @@
-using System.Linq;
 using System.Collections.Generic;
-using DynamicCheck.Rules;
-using System;
+using DynamicCheck.Validation;
 
 namespace DynamicCheck.Testing {
     internal class Test {

@@ -1,7 +1,5 @@
 
-using System;
-
-namespace DynamicCheck.Testing {
+namespace DynamicCheck.Validation {
     internal enum TestResultKind {
         Success,
         Fail,

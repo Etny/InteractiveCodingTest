@@ -16,6 +16,9 @@ internal class FileResultWriter : IResultWriter {
     public void WriteResult() {
         var file = File.Create("./Results.txt");
         using var writer = new StreamWriter(file);
-        writer.Write($"Time: {_tracking.TotalTime()}");
+        writer.WriteLine($"Total Time: {_tracking.TotalTime()}");
+
+        foreach (var (name, time) in _tracking.GetStageTimes())
+            writer.WriteLine($"{name}: " + time);  
     }
 }

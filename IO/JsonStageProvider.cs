@@ -1,4 +1,4 @@
-
+using System.Reflection;
 using System.Collections.Generic;
 using System.IO;
 using DynamicCheck.Testing;
@@ -10,20 +10,21 @@ namespace DynamicCheck.IO;
 internal class JsonStageProvider : IStageProvider
 {
 
-    private readonly string _path;
+    // private readonly string _path;
 
     private readonly Lazy<List<Stage>> _stages;
-    public JsonStageProvider(string path) {
-        _path = path;
+    public JsonStageProvider(string name) {
 
         _stages = new(() => {
-            var json = File.ReadAllText(_path);
+            using var json_stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"DynamicCheck.{name}.json");
+            using var json_reader = new StreamReader(json_stream);
+            var json = json_reader.ReadToEnd();
+
             var i = JsonConvert.DeserializeObject<List<Stage>>(json, new JsonSerializerSettings() {
                 ContractResolver = new DefaultContractResolver {
                     NamingStrategy = new SnakeCaseNamingStrategy()
                 }
             });
-            i.Reverse();
             return i;
         });
     }

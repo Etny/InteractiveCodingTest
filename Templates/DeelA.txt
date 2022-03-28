@@ -1,5 +1,5 @@
 using System;
-namespace Hello {
+namespace DeelA {
     public class OpdrachtA{
 
         // Maak in deze functie een locale variable met naam 'number', type int en een waarde van 50

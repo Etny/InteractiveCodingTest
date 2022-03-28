@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using DynamicCheck.IO;
+using DynamicCheck.Validation;
 
 namespace DynamicCheck.Testing {
     internal class TestRunner {
@@ -9,17 +10,19 @@ namespace DynamicCheck.Testing {
         private readonly TestingLifeCycle _lifeCyle;
         private readonly MessageWriter _ux;
         private readonly IResultWriter _result;
+        private readonly ITestValidator _validator;
 
         private int stage_index = 0;
         private TestFile _file = null;
         public Stage CurrentStage { get => _stages[stage_index]; }
 
-        public TestRunner(IStageProvider stageProvider, TestingLifeCycle lifeCycle, MessageWriter ux, IResultWriter result)
+        public TestRunner(IStageProvider stageProvider, TestingLifeCycle lifeCycle, MessageWriter ux, IResultWriter result, ITestValidator validator)
         {
             _lifeCyle = lifeCycle;
             _ux = ux;
             _stages = stageProvider.GetStages();
             _result = result;
+            _validator = validator;
         }
 
         public void Run() {
@@ -28,7 +31,7 @@ namespace DynamicCheck.Testing {
             while(stage_index < _stages.Count) {
                 if(_file == null) {
                     _lifeCyle.StartStage(CurrentStage);
-                    _file = CurrentStage.CreateFile();
+                    _file = new TestFile(CurrentStage);
                 }
 
                 if(_file.Poll() && Update()) {
@@ -60,7 +63,7 @@ namespace DynamicCheck.Testing {
             }
 
             bool result = true;
-            foreach(var (test_name, test_result) in CurrentStage.ValidateTests(context)) {
+            foreach(var (test_name, test_result) in _validator.ValidateTests(CurrentStage.Tests, context)) {
                 result = result && test_result.Kind == TestResultKind.Success;
                 _ux.WriteFormatted("   " + test_name + ": " + test_result.Display + "\n");
             }

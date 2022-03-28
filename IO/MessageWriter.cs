@@ -1,4 +1,4 @@
-using System;
+using System.Linq;
 using DynamicCheck.IO;
 using DynamicCheck.Testing;
 using DynamicCheck.Tracking;
@@ -12,9 +12,24 @@ namespace DynamicCheck {
         public MessageWriter(TestingLifeCycle lifeCycle, IStageProvider provider, TrackingManager tracking)
         {
             lifeCycle.OnRun += ShowStartUp(provider.GetStages().Count);
+            lifeCycle.OnStageStart += ShowStageStart;
             lifeCycle.OnStageEnd += ShowStageComplete;
             lifeCycle.OnTestEnd += ShowCompletion;
             _tracking = tracking;
+        }
+
+        private void ShowStageStart(Stage stage)
+        {
+            Clear();
+            WriteFormatted(@$"
+                Je start zo met deel {stage.Name}
+
+                    {stage.Description}
+                
+            Druk op <DarkCyan>Enter</> om te beginnen ...
+            ", true);
+
+            WaitForEnter();
         }
 
         private void ShowCompletion()
@@ -24,9 +39,9 @@ namespace DynamicCheck {
                             Je hebt de test afgemaakt! Goed gedaan!
 
                         Druk op <DarkCyan>Enter</> om de test af te sluiten...
-            ");
+            ", true);
 
-            while(ReadKey().Key != ConsoleKey.Enter) {}
+            WaitForEnter();
         }
 
         private Action ShowStartUp(int stageCount) => () => {
@@ -43,10 +58,15 @@ namespace DynamicCheck {
                 check de console voor je progress. 
 
                             Druk op <DarkCyan>Enter</> om te beginnen...
-            ");
+            ", true);
 
-            while(ReadKey().Key != ConsoleKey.Enter) {}
+            WaitForEnter();
         };
+
+        public static void WaitForEnter() {
+            while(ReadKey().Key != ConsoleKey.Enter) {}
+        }
+
 
         private void ShowStageComplete(Stage stage) {
             Clear();
@@ -54,14 +74,15 @@ namespace DynamicCheck {
             
                     Gefeliciteerd, je bent klaar met <DarkMagenta>{stage.Name}</>!
                     Je tijd voor dit deel is {_tracking.GetTime(stage)}
-            Druk op <DarkCyan>Enter</> om te met het volgende onderdeel te beginnen ...
-            ");
+            Druk op <DarkCyan>Enter</> om te met door te gaan...
+            ", true);
 
             while(ReadKey().Key != ConsoleKey.Enter) {}
         }
 
-        public void WriteFormatted(string s) {
-            var parts = s.Split('<','>');
+        public void WriteFormatted(string s, bool space_evenly = false, int indent = -1) {
+            var str = space_evenly ? EvenlySpace(s, indent) : s;
+            var parts = str.Split('<','>');
             
             foreach(var part in parts) {
                 if(part == "/")
@@ -71,6 +92,21 @@ namespace DynamicCheck {
                 else 
                     Write(part);
             }
+        }
+
+        public static string EvenlySpace(string s, int indent = -1) {
+            indent = indent == -1 ? WindowWidth / 2 : indent;
+
+            var lines = s.Split('\n');
+            var lengths = lines.Select(line => 
+                line.Trim().Split('<','>').Select((l, i) => i % 2 == 0 ? l.Length : 0).Sum()
+            );
+
+            var max = lengths.Max();
+            indent = Math.Max(0, indent - max);
+            var indents = lengths.Select(l => indent + ((max - l) / 2));
+
+            return string.Join('\n', lines.Zip(indents).Select(l => new string(' ', l.Second) + l.First.Trim()));
         }
 
     }

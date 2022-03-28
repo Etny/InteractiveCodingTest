@@ -1,0 +1,80 @@
+using System;
+
+namespace DeelC
+{
+    internal class TuringOpdracht
+    {
+        /* Turing 0.1
+         * 
+         * Omdat volgens Turing computers simpele dingen zijn, die werken zolang je kan optellen en springen,
+         * besluit iemand bij ITvitae een Turingmachine te bouwen.
+         * 
+         * De Turingmachine kent slechts drie instructies: stoppen (0), optellen (1) en springen (2)
+         * 
+         * Zowel optel-instructies als spring-instructies worden gevolgd door drie getallen, die de positie
+         * geven van het eerste argument, de positie van het tweede argument, en de positie van het derde argument.
+         * 
+         * Optellen is simpel: op de positie aangegeven door het derde argument wordt de som van de getallen
+         * die op de posities van het eerste en tweede argument staan aangegeven neergezet.
+         * 
+         * Springen is iets ingewikkelder: als het getal op de locatie aangegeven door het eerste argument
+         * kleiner is dan het getal op de locatie aangegeven door het tweede argument, springt het programma
+         * naar de locatie aangegeven door het derde argument; anders gaat het programma gewoon verder naar de 
+         * volgende instructie.
+         * 
+         * Als voorbeeld een programma om het getal 2 tot een bepaalde macht te verheffen:
+         * 
+         * 1, 0, 13, 13, 1, 14, 14, 14, 2, 13, 15, 0, 0, 0, 1, 4
+         * 
+         * Als ik hierbij de posities weergeef (als goede programmeurs beginnen we bij 0 te tellen)
+         * 
+         *  0|  1|  2|  3|  4|  5|  6|  7|  8|  9| 10| 11| 12| 13| 14| 15
+         *  1,  0, 13, 13,  1, 14, 14, 14,  2, 13, 15,  0,  0,  0,  1,  4
+         *  ^
+         * 
+         * We beginnen bij positie 0 (aangegeven door de ^): 1 betekent "optellen". We tellen het getal 
+         * op locatie 0 (1) op bij het getal op locatie 13 (0), en slaan de som (1) op op locatie 13. 
+         * De reeks ziet er nu uit als 
+         * 
+         *  0|  1|  2|  3|  4|  5|  6|  7|  8|  9| 10| 11| 12| 13| 14| 15
+         *  1,  0, 13, 13,  1, 14, 14, 14,  2, 13, 15,  0,  0,  1,  1,  4
+         *                  ^
+         *                  
+         * We gaan door met de volgende instructie, op plaats 4. Dit is ook optellen, het getal op locatie 14
+         * (1) wordt opgeteld bij zichzelf, som is 2, en die som wordt teruggezet op locatie 14. De reeks komt er dan
+         * uit te zien als 
+         * 
+         *  0|  1|  2|  3|  4|  5|  6|  7|  8|  9| 10| 11| 12| 13| 14| 15
+         *  1,  0, 13, 13,  1, 14, 14, 14,  2, 13, 15,  0,  0,  1,  2,  4
+         *                                  ^
+         *                                  
+         * De volgende instructie is een 2, dus een sprong. Het getal op locatie 13 (1) wordt vergeleken met
+         * het getal op locatie 15 (4). 2 is kleiner dan 4, dus de programmawijzer wordt teruggezet op 0
+         * 
+         *  0|  1|  2|  3|  4|  5|  6|  7|  8|  9| 10| 11| 12| 13| 14| 15
+         *  1,  0, 13, 13,  1, 14, 14, 14,  2, 13, 15,  0,  0,  1,  2,  4
+         *  ^
+         *  
+         *  Weer wordt 1 bij het getal op 13 opgeteld (tot 2) 14 bij zichzelf (tot 4), en 2 wordt met 4 vergeleken.
+         *  De programmawijzer wordt daarom teruggezet op 0. 1 wordt opgeteld bij het getal op 13 (tot 3),
+         *  14 bij zichzelf (tot 8), en 3 wordt met 4 vergeleken. Tenslotte wordt 1 opgeteld bij het getal op 13
+         *  (tot 4), het getal op 14 wordt bij zichzelf opgeteld (tot 16). Dan wordt het getal op 13 vergeleken
+         *  met het getal op 15. De getallen zijn nu allebei 4, dus er wordt niet meer gesprongen, maar gewoon
+         *  doorgegaan met de instructie op 12. Dit is een 0, dus het programma stopt, met als eindtoestand
+         *  
+         *  0|  1|  2|  3|  4|  5|  6|  7|  8|  9| 10| 11| 12| 13| 14| 15
+         *  1,  0, 13, 13,  1, 14, 14, 14,  2, 13, 15,  0,  0,  4, 16,  4
+         *  
+         *  Hierbij zijn 13 operaties uitgevoerd (4x 0, 4 en 8, en 1x 12, wat het programma stopt)
+         *  
+         *  Natuurlijk zijn ook grotere programma's mogelijk. Van het programma in OpgaveCInput, wat is 
+         *  het produkt van het aantal stappen dat het programma neemt voordat het ophoudt, en het nieuwe
+         *  getal op de vijfde positie (index 5)?
+         *                                                  ^
+        */
+        public static int Get5CodeTimesNumSteps(int[] program)
+        {
+            return -1;
+        }
+    }
+}

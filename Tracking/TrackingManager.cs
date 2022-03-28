@@ -9,7 +9,7 @@ internal class TrackingManager {
     private readonly Dictionary<string, TimeSpan> _completionTimes = new();
     private DateTime _currentStageStart;
     public TrackingManager(TestingLifeCycle lifeCycle) {
-        lifeCycle.OnStartStage += StageStart;
+        lifeCycle.OnStageStart += StageStart;
         lifeCycle.OnStageEnd += StageEnd;
     }
 
@@ -24,6 +24,9 @@ internal class TrackingManager {
 
     public TimeSpan GetTime(Stage stage) 
         => _completionTimes[stage.Name];
+
+    public IEnumerable<(string Name, TimeSpan time)> GetStageTimes()
+        => _completionTimes.Select(k => (k.Key, k.Value));
 
     public TimeSpan TotalTime() => _completionTimes.Values.Aggregate((a, b) => a.Add(b));
     
