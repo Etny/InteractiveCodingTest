@@ -4,7 +4,7 @@ using System.IO;
 namespace DynamicCheck.Security;
 internal class ConsolePasswordProvider : IPasswordProvider {
 
-    private string _password;
+    private string _password = String.Empty;
     
     private readonly MessageWriter _io;
 

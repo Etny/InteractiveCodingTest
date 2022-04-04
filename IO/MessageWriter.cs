@@ -7,9 +7,9 @@ using static System.Console;
 namespace DynamicCheck {
     internal class MessageWriter {
 
-        private readonly TrackingManager _tracking;
+        private readonly ProgressTracker _tracking;
 
-        public MessageWriter(TestingLifeCycle lifeCycle, IStageProvider provider, TrackingManager tracking)
+        public MessageWriter(TestingLifeCycle lifeCycle, IStageProvider provider, ProgressTracker tracking)
         {
             lifeCycle.OnRun += ShowStartUp(provider.GetStages().Count);
             lifeCycle.OnStageStart += ShowStageStart;
@@ -73,7 +73,7 @@ namespace DynamicCheck {
             WriteFormatted($@"
             
                     Gefeliciteerd, je bent klaar met <DarkMagenta>{stage.Name}</>!
-                    Je tijd voor dit deel is {_tracking.GetTime(stage)}
+                    Je tijd voor dit deel is {_tracking.LastStageTime()}
             Druk op <DarkCyan>Enter</> om te met door te gaan...
             ", true);
 

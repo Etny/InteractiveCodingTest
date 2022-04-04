@@ -16,7 +16,8 @@ internal class JsonStageProvider : IStageProvider
     public JsonStageProvider(string name) {
 
         _stages = new(() => {
-            using var json_stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"DynamicCheck.{name}.json");
+            using var json_stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"DynamicCheck.{name}.json")
+                                        ?? throw new FileNotFoundException($"Failed to find Manifest Resource 'DynamicCheck.{name}.json'");
             using var json_reader = new StreamReader(json_stream);
             var json = json_reader.ReadToEnd();
 
@@ -25,7 +26,8 @@ internal class JsonStageProvider : IStageProvider
                     NamingStrategy = new SnakeCaseNamingStrategy()
                 }
             });
-            return i;
+
+            return i ?? throw new JsonException("Failed to deserialize stage list");
         });
     }
 

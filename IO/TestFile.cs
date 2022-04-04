@@ -16,9 +16,12 @@ namespace DynamicCheck.IO {
 
         public TestFile(Stage stage){
             FilePath = "./" + stage.FileName + ".cs";
+            if(File.Exists(FilePath)) return;
+            
             using var file = File.Create(FilePath);
             using var template = Assembly.GetExecutingAssembly()
-                                    .GetManifestResourceStream($"DynamicCheck.Templates.{stage.FileName}.txt");
+                                    .GetManifestResourceStream($"DynamicCheck.Templates.{stage.FileName}.txt")
+                                    ?? throw new FileNotFoundException($"Failed to find Manifest Resource 'DynamicCheck.{stage.FileName}.txt'");
 
             using var reader = new StreamReader(template);
             using var writer = new StreamWriter(file);

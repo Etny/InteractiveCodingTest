@@ -1,14 +1,15 @@
 using System.Linq;
 using System.Collections.Generic;
 using DynamicCheck.Testing;
+using DynamicCheck.IO;
 
 namespace DynamicCheck.Tracking;
 
-internal class TrackingManager {
+internal class TimeTracker {
 
     private readonly Dictionary<string, TimeSpan> _completionTimes = new();
     private DateTime _currentStageStart;
-    public TrackingManager(TestingLifeCycle lifeCycle) {
+    public TimeTracker(TestingLifeCycle lifeCycle) {
         lifeCycle.OnStageStart += StageStart;
         lifeCycle.OnStageEnd += StageEnd;
     }

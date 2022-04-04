@@ -10,8 +10,8 @@ namespace DynamicCheck.Rules {
     [RuleTag("validate_custom_type")]
     internal class ValidateCustomTypeRules : IRule
     {
-        public string TypeName { get; set; }
-        public IList<PropertyDec> Props { get; set; }
+        public string TypeName { get; set; } = String.Empty;
+        public IList<PropertyDec> Props { get; set; } = new List<PropertyDec>();
 
         public bool Validate(TestContext context)
         {
@@ -32,7 +32,9 @@ namespace DynamicCheck.Rules {
 
             foreach(var prop in Props) {
                 var backing_prop = type.FindProperty(prop.Name);
-                if(!prop.ValueEquals(backing_prop.GetValue(result), backing_prop.PropertyType))
+                var backing_value = backing_prop.GetValue(result);
+                if(backing_value == null) return false;
+                if(!prop.ValueEquals(backing_value, backing_prop.PropertyType))
                     return false;
             }
 

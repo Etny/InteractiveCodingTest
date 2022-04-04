@@ -17,7 +17,7 @@ using System.Collections.Generic;
 namespace DynamicCheck {
     internal static class AssemblyUtils {
 
-        private static Assembly _assembly = null;
+        private static Assembly? _assembly = null;
 
         private readonly static Lazy<List<MetadataReference>> _references = new(() => {
             var references = new List<MetadataReference>
@@ -28,7 +28,7 @@ namespace DynamicCheck {
                 MetadataReference.CreateFromFile(typeof(Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo).Assembly.Location),
             };
 
-            Assembly.GetEntryAssembly().GetReferencedAssemblies().ToList()
+            Assembly.GetEntryAssembly()!.GetReferencedAssemblies().ToList()
                 .ForEach(r => references.Add(MetadataReference.CreateFromFile(Assembly.Load(r).Location)));
 
             return references;
@@ -37,7 +37,7 @@ namespace DynamicCheck {
         public static (SyntaxTree, Assembly) CompileStage(string filePath) {
 
              if(_assembly != null) {
-                AssemblyLoadContext.GetLoadContext(_assembly).Unload();
+                AssemblyLoadContext.GetLoadContext(_assembly)?.Unload();
                 // for (var i = 0; i < 8; i++)
                 // {
                 //     GC.Collect();
@@ -74,8 +74,8 @@ namespace DynamicCheck {
             this MethodInfo method,
             object obj,
             object[] args,
-            TextWriter stdOutHook = null,
-            TextReader stdInHook = null
+            TextWriter? stdOutHook = null,
+            TextReader? stdInHook = null
         ) {
             var stdOut = Console.Out;
             var stdIn = Console.In;
@@ -95,7 +95,7 @@ namespace DynamicCheck {
                     if(task.Exception != null)
                         throw new Exception("Exception in je code: " + task.Exception.Message);
                     else
-                        return task.Result;
+                        return task.Result!;
                 else
                     throw new Exception("Timed-out. Zit er een infinite loop in je code?");
             } finally {

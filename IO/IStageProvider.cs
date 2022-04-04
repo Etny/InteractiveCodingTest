@@ -6,4 +6,5 @@ namespace DynamicCheck.IO;
 
 internal interface IStageProvider {
     IList<Stage> GetStages();
+
 }

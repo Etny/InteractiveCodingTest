@@ -9,7 +9,7 @@ namespace DynamicCheck.Rules {
     [RuleTag("validate_console")]
     internal class ValidateConsoleRule : IRule
     {
-        public string[] Lines { get; set; }
+        public string[] Lines { get; set; } = Array.Empty<string>();
         public string[] In { get; set; } = Array.Empty<string>();
 
         public bool Validate(TestContext context)
