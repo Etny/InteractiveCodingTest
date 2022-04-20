@@ -1,0 +1,13 @@
+2022-04-20T22:20:32.6257497+02:00	DBUG	[Microsoft.Extensions.Hosting.Internal.Host]	[Starting]	Hosting starting
+2022-04-20T22:22:04.1981028+02:00	DBUG	[Microsoft.Extensions.Hosting.Internal.Host]	[Starting]	Hosting starting
+2022-04-20T22:23:58.7166407+02:00	DBUG	[Microsoft.Extensions.Hosting.Internal.Host]	[Starting]	Hosting starting
+2022-04-20T22:25:44.7657137+02:00	DBUG	[Microsoft.Extensions.Hosting.Internal.Host]	[Starting]	Hosting starting
+2022-04-20T22:25:45.3765066+02:00	INFO	[DynamicCheck.TestService]	[0]	Starting application...
+2022-04-20T22:25:45.3775111+02:00	INFO	[Microsoft.Hosting.Lifetime]	[0]	Application started. Press Ctrl+C to shut down.
+2022-04-20T22:25:45.3807050+02:00	INFO	[Microsoft.Hosting.Lifetime]	[0]	Hosting environment: Production
+2022-04-20T22:25:45.3807053+02:00	INFO	[DynamicCheck.TestingLifeCycle]	[0]	Starting stage: Deel A
+2022-04-20T22:25:45.3807264+02:00	INFO	[Microsoft.Hosting.Lifetime]	[0]	Content root path: C:\Users\yveem\InteractiveCodingTest
+2022-04-20T22:25:45.3808009+02:00	DBUG	[Microsoft.Extensions.Hosting.Internal.Host]	[Started]	Hosting started
+2022-04-20T22:25:48.4086234+02:00	INFO	[Microsoft.Hosting.Lifetime]	[0]	Application is shutting down...
+2022-04-20T22:25:48.4111253+02:00	DBUG	[Microsoft.Extensions.Hosting.Internal.Host]	[Stopping]	Hosting stopping
+2022-04-20T22:25:48.4116791+02:00	DBUG	[Microsoft.Extensions.Hosting.Internal.Host]	[Stopped]	Hosting stopped

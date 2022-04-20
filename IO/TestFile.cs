@@ -20,7 +20,7 @@ namespace DynamicCheck.IO {
             
             using var file = File.Create(FilePath);
             using var template = Assembly.GetExecutingAssembly()
-                                    .GetManifestResourceStream($"DynamicCheck.Templates.{stage.FileName}.txt")
+                                    .GetManifestResourceStream($"Template-{stage.FileName}.txt")
                                     ?? throw new FileNotFoundException($"Failed to find Manifest Resource 'DynamicCheck.{stage.FileName}.txt'");
 
             using var reader = new StreamReader(template);
