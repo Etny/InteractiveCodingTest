@@ -10,20 +10,15 @@ internal class StageTracker {
     private readonly IList<Stage> _stages; 
     private int _index = 0;
     
-    public StageTracker(IStageProvider stageProvider, TestingLifeCycle lifeCycle, ProgressTracker progress)
+    public StageTracker(IStageProvider stageProvider, ProgressTracker progress)
     {
         _stageProvider = stageProvider;
         _stages = _stageProvider.GetStages();
         _index = progress.RecordedProgress;
+    }
 
-        lifeCycle.OnTestProgress += () => {
-            _index++;
-
-            if(HasStage)
-                lifeCycle.StartStage(CurrentStage!);
-            else 
-                lifeCycle.EndTest();
-        };
+    public void Progress() {
+        _index++;
     }
 
     public Stage? CurrentStage => HasStage ?_stages[_index] : null;

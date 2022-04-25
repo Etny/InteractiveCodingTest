@@ -7,20 +7,17 @@ using Microsoft.Extensions.Logging;
 
 namespace DynamicCheck.Testing {
     internal class TestRunner {
-        private readonly TestingLifeCycle _lifeCyle;
+ 
         private readonly MessageWriter _ux;
         private readonly ITestValidator _validator;
         private readonly ILogger<TestRunner> _logger;
 
 
-        public TestRunner(TestingLifeCycle lifeCycle, MessageWriter ux,  ITestValidator validator, ILogger<TestRunner> logger)
+        public TestRunner(MessageWriter ux,  ITestValidator validator, ILogger<TestRunner> logger)
         {
-            _lifeCyle = lifeCycle;
             _ux = ux;
             _validator = validator;
             _logger = logger;
-
-            _lifeCyle.OnStageStart += RunStage;
         }
 
         public void RunStage(Stage stage) {
@@ -29,10 +26,9 @@ namespace DynamicCheck.Testing {
 
             while(true) {
                 if(file.Poll() && Update(stage, file)) {
-                    _lifeCyle.EndStage(stage);
                     return;
                 } else 
-                    Thread.Sleep(100);    
+                    Thread.Sleep(200);    
             }
         }
 

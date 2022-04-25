@@ -9,15 +9,6 @@ namespace DynamicCheck.Tracking;
 internal class ProgressTracker {
 
     private readonly List<(DateTime?, DateTime?)> _times = new();
-
-    public ProgressTracker(TestingLifeCycle lifeCycle, IResultWriter result)
-    {
-        ReadProgress();
-
-        lifeCycle.OnStageStart += OnStart;
-        lifeCycle.OnStageEnd += OnEnd;
-        lifeCycle.OnTestEnd += () => result.WriteResult(this);
-    }
     public int RecordedProgress => _times.Where((s) => s.Item1 != null && s.Item2 != null).Count();
 
     public IEnumerable<TimeSpan> GetStageTimes()
@@ -30,7 +21,7 @@ internal class ProgressTracker {
         => GetStageTimes().Aggregate((f, s) => f.Add(s));
 
 
-    private void ReadProgress() {
+    public void ReadProgress() {
         var path = "./test_progress.txt";
         if(!File.Exists(path)) return;
         
@@ -43,13 +34,13 @@ internal class ProgressTracker {
         }
     }
 
-    private void OnStart(Stage _) {
+    public void StartStageTimer() {
         if(_times.Count > 0 && _times[^1].Item2 == null) return;
         _times.Add((DateTime.Now, null));
         WriteProgress();
     }
 
-    private void OnEnd(Stage _) {
+    public void StopStageTimer() {
         _times[^1] = (_times[^1].Item1, DateTime.Now);
         WriteProgress();
     }

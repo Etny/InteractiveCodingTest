@@ -14,19 +14,15 @@ internal class TestService : IHostedService
 
     private readonly ILogger _logger;
     private readonly IHostApplicationLifetime _lifetime;
-    private readonly StageTracker _stages; 
     private readonly TestingLifeCycle _lifeCycle;
     private int? _result = null;
 
     public TestService(IHostApplicationLifetime lifetime,
                         ILogger<TestService> logger, 
-                        StageTracker stages, 
-                        TestingLifeCycle lifeCycle,
-                        TestRunner _)
+                        TestingLifeCycle lifeCycle)
     {
         _lifetime = lifetime;
         _logger = logger;
-        _stages = stages;
         _lifeCycle = lifeCycle;
     }
 
@@ -41,7 +37,7 @@ internal class TestService : IHostedService
         _lifetime.ApplicationStarted.Register(() => {
             Task.Run(() => {
                 try{
-                    _lifeCycle.StartStage(_stages.CurrentStage!);
+                    _lifeCycle.Run();
                     _result = 0;
                 } catch (Exception e) {
                     _logger.LogError(e, "Uncaught Error");

@@ -7,18 +7,7 @@ using static System.Console;
 namespace DynamicCheck {
     internal class MessageWriter {
 
-        private readonly ProgressTracker _tracking;
-
-        public MessageWriter(TestingLifeCycle lifeCycle, IStageProvider provider, ProgressTracker tracking)
-        {
-            lifeCycle.OnRun += ShowStartUp(provider.GetStages().Count);
-            lifeCycle.OnStageStart += ShowStageStart;
-            lifeCycle.OnStageEnd += ShowStageComplete;
-            lifeCycle.OnTestEnd += ShowCompletion;
-            _tracking = tracking;
-        }
-
-        private void ShowStageStart(Stage stage)
+        public void ShowStageStart(Stage stage)
         {
             Clear();
             WriteFormatted(@$"
@@ -32,7 +21,7 @@ namespace DynamicCheck {
             WaitForEnter();
         }
 
-        private void ShowCompletion()
+        public void ShowCompletion()
         {
             Clear();
             WriteFormatted(@$"
@@ -44,7 +33,7 @@ namespace DynamicCheck {
             WaitForEnter();
         }
 
-        private Action ShowStartUp(int stageCount) => () => {
+        public void ShowStartUp(int stageCount) {
             Clear();
             WriteFormatted(@$"
                          Welkom bij de <Cyan>ITvitae</> <Yellow>Niveau Test</>!
@@ -61,19 +50,19 @@ namespace DynamicCheck {
             ", true);
 
             WaitForEnter();
-        };
+        }
 
         public static void WaitForEnter() {
             while(ReadKey().Key != ConsoleKey.Enter) {}
         }
 
 
-        private void ShowStageComplete(Stage stage) {
+        public void ShowStageComplete(Stage stage, TimeSpan time) {
             Clear();
             WriteFormatted($@"
             
                     Gefeliciteerd, je bent klaar met <DarkMagenta>{stage.Name}</>!
-                    Je tijd voor dit deel is {_tracking.LastStageTime()}
+                    Je tijd voor dit deel is {time}
             Druk op <DarkCyan>Enter</> om te met door te gaan...
             ", true);
 
