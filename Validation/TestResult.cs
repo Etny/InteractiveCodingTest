@@ -1,4 +1,6 @@
 
+using System.Collections.Generic;
+
 namespace DynamicCheck.Validation {
     internal enum TestResultKind {
         Success,
@@ -9,6 +11,7 @@ namespace DynamicCheck.Validation {
     internal struct TestResult {
         public readonly TestResultKind Kind;
         public readonly string Display;
+        public List<string> DebugLines = new();
 
         public TestResult(bool success) {
             if(success) {

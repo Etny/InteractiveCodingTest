@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using System.Threading;
+using System.Linq;
 using DynamicCheck.IO;
 using DynamicCheck.Reflection;
 using DynamicCheck.Validation;
@@ -54,23 +55,30 @@ namespace DynamicCheck.Testing {
 
             _logger.LogDebug("Validating tests...");
 
-            var failedTestFuncs = new List<string>();
+            var testResults = _validator.ValidateTests(stage.Tests, context).ToArray();
 
-            bool result = true;
-            foreach(var validationResult in _validator.ValidateTests(stage.Tests, context)) {
-                result = result && validationResult.Result.Kind == TestResultKind.Success;
-                _ux.WriteFormatted("   " + validationResult.TestName + ": " + validationResult.Result.Display + "\n");
-                if(validationResult.Result.Kind != TestResultKind.Success)
-                    failedTestFuncs.Add(validationResult.TestName);
-                
+            foreach(var result in testResults)
+                _ux.WriteFormatted($"   {result.TestName}: {result.Result.Display}\n");   
+
+            var failedWithDebug = testResults.Where(
+                    r => r.Result.Kind != TestResultKind.Success && 
+                    r.Result.DebugLines.Count > 0
+                ).ToArray();
+
+            if(failedWithDebug.Length > 0) {
+                _ux.WriteFormatted("\n<DarkYellow>Debug</> output (van Console.WriteLine):\n");
+
+                foreach(var failed in failedWithDebug)
+                {
+                    _ux.WriteFormatted($"   <Yellow>{failed.TestName}</>:\n");
+
+                    foreach(var line in failed.Result.DebugLines)
+                        _ux.WriteFormatted($"      {line}\n");
+                }
             }
-           
+          
 
-            // if(failedTestFuncs.Count > 0) 
-            //     _ux.WriteFormatted($"\n<Yellow>Debug</> output:\n   {string.Join("\n   ", failedTestFuncs)}");
-            
-
-            return result;
+            return testResults.All(r => r.Result.Kind == TestResultKind.Success);
         }
 
         

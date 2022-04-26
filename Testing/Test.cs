@@ -10,7 +10,8 @@ namespace DynamicCheck.Testing {
         public IList<RuleDec> Rules { get; set; }
 
         public TestResult Result(TestContext context) {
-
+            context.CurrentTest = this;
+            TestResult testResult;
             try {
                 TestContext localContext = 
                     TypeOverride != String.Empty 
@@ -30,10 +31,13 @@ namespace DynamicCheck.Testing {
                     localContext.InstanceProperties = dec.WithProps;
                     result = result && dec.Validate(localContext);
                 }
-                return new TestResult(result);
+                testResult = new TestResult(result);
             } catch(Exception e) {
-                return new TestResult(e);
-            }
+                testResult = new TestResult(e);
+            } 
+            testResult.DebugLines = new List<string>(context.DebugOutput);
+            context.DebugOutput.Clear();
+            return testResult;
         }
     }
 }

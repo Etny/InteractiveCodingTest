@@ -76,7 +76,7 @@ namespace DynamicCheck {
             foreach(var part in parts) {
                 if(part == "/")
                     ResetColor();
-                else if(Enum.TryParse(part.Trim(), out ConsoleColor c)) 
+                else if(!int.TryParse(part, out int _) && Enum.TryParse(part.Trim(), out ConsoleColor c)) 
                     ForegroundColor = c;
                 else 
                     Write(part);

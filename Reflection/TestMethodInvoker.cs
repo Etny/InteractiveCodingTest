@@ -14,8 +14,8 @@ internal class TestMethodInvoker {
     private bool _hasTimeout = true;
     private TimeSpan _timeout = TimeSpan.FromMilliseconds(100);
     private object[] _args = Array.Empty<object>();
-    private readonly TextWriter _outHook = new StringWriter();
-    private TextReader _inHook = new StringReader("");
+    private readonly StringWriter _outHook = new();
+    private StringReader _inHook = new StringReader("");
 
     public TestMethodInvoker(MethodInfo method, TestContext testContext)
     {
@@ -51,18 +51,22 @@ internal class TestMethodInvoker {
                 throw new Exception("Timed-out. Zit er een infinite loop in je code?");
 
         } finally {
-            
             Console.SetIn(stdIn);
             Console.SetOut(stdOut);
+            _testContext.DebugOutput.AddRange(ReadStdOutHook());
         }   
     }
+
+    private IEnumerable<string> ReadStdOutHook() 
+        => _outHook.ToString().Split('\n', 9999, StringSplitOptions.RemoveEmptyEntries);
+        
 
     public TestMethodInvoker WithArgs(params object[] args) {
         _args = args;
         return this;
     }
 
-    public TestMethodInvoker WithStdIn(TextReader inHook) {
+    public TestMethodInvoker WithStdIn(StringReader inHook) {
         _inHook = inHook;
         return this;
     }
@@ -79,7 +83,7 @@ internal class TestMethodInvoker {
     }
 
     public TestMethodInvoker WithStdOutReader(out Func<IEnumerable<string>> outReader) {
-        outReader = () => _outHook.ToString().Split('\n').Where(t => t.Trim().Length > 0);
+        outReader = () => ReadStdOutHook();
         return this;
     }
 
