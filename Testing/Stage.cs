@@ -11,7 +11,7 @@ namespace DynamicCheck.Testing {
         public string FileName { get; set; } = String.Empty;
         public string TypeName { get; set; } = String.Empty;
         public string Description { get; set; } = String.Empty;
-        public IList<Test>? Tests { get; set; }
+        public IList<Test> Tests { get; set; }
 
 
         

@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace DynamicCheck {
     internal static class NodeUtils {
-        public static SyntaxNode? IsolateFirst(this SyntaxNode parent, SyntaxKind kind, string name = "", bool match_exact = false) {
+        public static SyntaxNode IsolateFirst(this SyntaxNode parent, SyntaxKind kind, string name = "", bool match_exact = false) {
             foreach(var child in parent.ChildNodes()) {
                 if(child.IsKind(kind) && (match_exact? child.MatchText(name) : child.GetText().ToString().Contains(name)))
                     return child;

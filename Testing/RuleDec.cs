@@ -7,7 +7,7 @@ namespace DynamicCheck.Testing {
     
     [JsonConverter(typeof(RuleDecJsonConverter))]
     internal class RuleDec {
-        public IRule? Rule { get; set; }
+        public IRule Rule { get; set; }
         public List<PropertyDec> WithProps { get; set; } = new List<PropertyDec>();
 
 

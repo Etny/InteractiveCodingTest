@@ -15,17 +15,14 @@ namespace DynamicCheck.Rules {
 
         public bool Validate(TestContext context)
         {
-            var type = context.Assembly.FindType(TypeName);
+            var type = context.Assembly!.FindType(TypeName);
 
-            object result;
-
-            if(context.Method.ReturnType != type) {
-                var instance = context.Instance;
-                context.Method.InvokeWithTimeout(instance, Array.Empty<object>());
-                result = instance;
-            } else 
-                result = context.Method.InvokeWithTimeout(context.Instance, Array.Empty<object>());  
-
+            var instance = context.Instance;
+            var invoke_result = context.CreateInvoker().Invoke(instance);
+            
+            object result = context.Method.ReturnType == type 
+                            ?   invoke_result
+                            :   instance;
             
             if(result == null)
                 return false;

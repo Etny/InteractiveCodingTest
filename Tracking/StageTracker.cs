@@ -21,6 +21,6 @@ internal class StageTracker {
         _index++;
     }
 
-    public Stage? CurrentStage => HasStage ?_stages[_index] : null;
+    public Stage CurrentStage => HasStage ?_stages[_index] : null;
     public bool HasStage => _index < _stages.Count;
 }

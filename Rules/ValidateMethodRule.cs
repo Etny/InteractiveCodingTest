@@ -13,19 +13,22 @@ namespace DynamicCheck.Rules {
     [RuleTag("validate_method")]
     internal class ValidateMethodRule : IRule
     {
-        public IList<TruthRecord>? TruthTable { get; set; } = null;
-        public JArray? In { get; set; } = null;
-        public JToken? Out { get; set; } = null;
+        public IList<TruthRecord> TruthTable { get; set; } = null;
+        public JArray In { get; set; } = null;
+        public JToken Out { get; set; } = null;
 
         public bool Validate(TestContext context)
         {
             var arg_types = context.Method.GetParameters().Select(p => p.ParameterType).ToArray();
             var out_type = context.Method.ReturnType;
 
-            TruthTable ??= new List<TruthRecord> { new TruthRecord { In = In!, Out = Out! } };
+            TruthTable ??= new List<TruthRecord> { new TruthRecord { In = In, Out = Out } };
             
             foreach(var truth in TruthTable) {
-                var result = context.Method.InvokeWithTimeout(context.Instance, truth.ConvertedIn(arg_types));
+                var result = context.CreateInvoker()
+                                .WithArgs(truth.ConvertedIn(arg_types))
+                                .Invoke();
+                                
                 if(result == null || !truth.CompareOut(result, out_type))
                     return false;
             }
@@ -36,8 +39,8 @@ namespace DynamicCheck.Rules {
     }
 
     internal class TruthRecord {
-        public JArray? In { get; set; }
-        public JToken? Out { get; set; }
+        public JArray In { get; set; }
+        public JToken Out { get; set; }
         public bool CompareOut(object result, Type returnType) {
             if(returnType.IsArray) {
                 var type = returnType.GetElementType() ?? typeof(void);
@@ -52,7 +55,7 @@ namespace DynamicCheck.Rules {
         }
             
         public object[] ConvertedIn(Type[] paramTypes) 
-            => paramTypes.Length > 0 ? In!.Select((item, index) => item.ToObject(paramTypes[index])!).ToArray() : Array.Empty<object>();
+            => paramTypes.Length > 0 ? In.Select((item, index) => item.ToObject(paramTypes[index])).ToArray() : Array.Empty<object>();
         
         
     }

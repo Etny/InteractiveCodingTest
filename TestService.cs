@@ -30,10 +30,6 @@ internal class TestService : IHostedService
     {
         _logger.LogInformation("Starting application...");
 
-        // var args = Environment.GetCommandLineArgs();
-        // var secured = args.Contains("-p");
-        // var verify = args.Contains("-v");
-
         _lifetime.ApplicationStarted.Register(() => {
             Task.Run(() => {
                 try{

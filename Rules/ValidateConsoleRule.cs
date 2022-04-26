@@ -14,13 +14,12 @@ namespace DynamicCheck.Rules {
 
         public bool Validate(TestContext context)
         {
-            var intercept = new StringWriter();
-            var input = new StringReader(string.Join("\n", In));
-            
-            context.Method.InvokeWithTimeout(context.Instance, Array.Empty<object>(), intercept, input);
-
-            var output = intercept.ToString().Split('\n').Where(t => t.Trim().Length > 0);
-            return output.SequenceEqual(Lines);
+            context.CreateInvoker()
+                    .WithStdOutReader(out var reader)
+                    .WithStdIn(In)
+                    .Invoke();
+                    
+            return reader().SequenceEqual(Lines);
         }
     }
 }

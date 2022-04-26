@@ -6,6 +6,6 @@ namespace DynamicCheck.Validation;
 
 internal class DefaultTestValidator : ITestValidator
 {
-    public IEnumerable<(string Name, TestResult Result)> ValidateTests(IList<Test> tests, TestContext context)
-        => tests.Select(t => (t.Name, t.Result(context)));
+    public IEnumerable<ValidationResult> ValidateTests(IList<Test> tests, TestContext context)
+        => tests.Select(t => new ValidationResult(t.Name, t.Result(context)));
 }

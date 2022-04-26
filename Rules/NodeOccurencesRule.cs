@@ -16,20 +16,15 @@ namespace DynamicCheck.Rules {
 
         public bool Validate(TestContext context)
         {
-            var node = context.Root.IsolateFirst(SyntaxKind.MethodDeclaration, context.Method.Name);
-            var count = node.IsolateAll(Kind, Content).Count();
+            var node = context.Root!.IsolateFirst(SyntaxKind.MethodDeclaration, context.Method!.Name);
+            var count = node!.IsolateAll(Kind, Content).Count();
 
-            switch(Restriction) {
-                case NodeOccurenceRestriction.Exact:
-                    return count == Count;
-            
-                case NodeOccurenceRestriction.More: 
-                    return count > Count;
-
-                default: 
-                case NodeOccurenceRestriction.Less:
-                    return count < Count;
-            }
+            return Restriction switch
+            {
+                NodeOccurenceRestriction.Exact => count == Count,
+                NodeOccurenceRestriction.More => count > Count,
+                _ => count < Count,
+            };
         }
     }
 

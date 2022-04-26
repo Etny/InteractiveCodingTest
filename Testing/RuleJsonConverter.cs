@@ -24,7 +24,7 @@ namespace DynamicCheck.Testing {
             => typeof(RuleDec).IsAssignableFrom(objectType);
 
 
-        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             if (reader == null) throw new ArgumentNullException(nameof(reader));
             if (serializer == null) throw new ArgumentNullException(nameof(serializer));
@@ -39,7 +39,7 @@ namespace DynamicCheck.Testing {
             return dec;
         }
 
-        private static IRule? ToRule(JObject obj) {
+        private static IRule ToRule(JObject obj) {
             string type = obj.Value<string>("type") 
                             ?? throw new ArgumentException("JObject lacks 'type' property");
 
@@ -58,7 +58,7 @@ namespace DynamicCheck.Testing {
         //         );
 
 
-        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             writer.WriteStartObject();
 
