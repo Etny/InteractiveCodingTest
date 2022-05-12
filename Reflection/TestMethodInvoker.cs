@@ -15,7 +15,7 @@ internal class TestMethodInvoker {
     private TimeSpan _timeout = TimeSpan.FromMilliseconds(100);
     private object[] _args = Array.Empty<object>();
     private readonly StringWriter _outHook = new();
-    private StringReader _inHook = new StringReader("");
+    private StringReader _inHook = new("");
 
     public TestMethodInvoker(MethodInfo method, TestContext testContext)
     {
