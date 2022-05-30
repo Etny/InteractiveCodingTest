@@ -40,11 +40,11 @@ namespace DynamicCheck {
 
                            De test bestaat uit {stageCount} delen.
 
-                Wanneer je de test begint, wordt er een file aangemaakt 
-                in de huidige folder. Open de file en maak de opdrachten
-                zoals aangegeven door de comments. Iedere keer dat je de
-                file veranderd en opslaat wordt gecheckt of alles klopt,
-                check de console voor je progress. 
+                Wanneer je een deel van de test begint, wordt er een file 
+                aangemaakt in de workspace folder. Open de file in je editor 
+                naar keuze en vul de code in iedere class/method in als aangegeven 
+                in de comments. Iedere keer dat je de file veranderd en opslaat 
+                wordt gecheckt of alles klopt, check de console voor je progress. 
 
                             Druk op <DarkCyan>Enter</> om te beginnen...
             ", true);

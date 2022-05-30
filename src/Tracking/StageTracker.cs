@@ -7,20 +7,30 @@ namespace DynamicCheck.Tracking;
 internal class StageTracker {
 
     private readonly IStageProvider _stageProvider;
-    private readonly IList<Stage> _stages; 
-    private int _index = 0;
-    
+    private readonly ProgressTracker _progress;
+    private int? _index = null;
+
+    private int Index {
+        get {
+            if(!_index.HasValue)
+                _index = _progress.RecordedProgress;
+            return _index.Value;
+        } 
+        set {
+            _index = value;
+        }
+    }
+
     public StageTracker(IStageProvider stageProvider, ProgressTracker progress)
     {
         _stageProvider = stageProvider;
-        _stages = _stageProvider.GetStages();
-        _index = progress.RecordedProgress;
+        _progress = progress;
     }
 
     public void Progress() {
-        _index++;
+        Index++;
     }
 
-    public Stage CurrentStage => HasStage ?_stages[_index] : null;
-    public bool HasStage => _index < _stages.Count;
+    public Stage CurrentStage => HasStage ? _stageProvider.GetStages()[Index] : null;
+    public bool HasStage => Index < _stageProvider.GetStages().Count;
 }
