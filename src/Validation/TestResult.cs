@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace DynamicCheck.Validation {
     internal enum TestResultKind {
@@ -14,12 +15,13 @@ namespace DynamicCheck.Validation {
         public List<string> DebugLines = new();
 
         public TestResult(bool success) {
+            bool windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
             if(success) {
                 Kind = TestResultKind.Success;
-                Display = "<Green>\u2714</>";
+                Display = windows ? "<Green>Success</>" : "<Green>\u2714</>";
             } else {
                 Kind = TestResultKind.Fail;
-                Display = "<Red>\u2718</>";
+                Display = windows ? "<Red>Failed</>" : "<Red>\u2718</>";
             }
         }
 
