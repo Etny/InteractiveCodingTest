@@ -63,7 +63,7 @@ namespace DeelB
                 return -1;
             }
 
-            // implementeer GetCountYesterday, welke teruggeeft welke je op de meest recente (laatste) dag zag
+            // implementeer GetCountYesterday, dat teruggeeft hoeveel vogels je op de meest recente (laatste) dag zag
             public int GetCountYesterday()
             {
                 return -1;

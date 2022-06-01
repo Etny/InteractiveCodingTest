@@ -102,7 +102,7 @@ namespace DeelC
          *  Bij het bovenstaande programma zou de methode dus het element op index 5 (14) maal het aantal
          *  uitgevoerde stappen (13), dus (14 * 13 =) 182 terug moeten geven.                                          
         */
-        public static int Get5CodeTimesNumSteps()
+        public static int Get5CodeTimesNumSteps(int[] program)
         {
             int finalNumberAtPosition5 = 0;
             int numberOfStepsTaken = 0;
