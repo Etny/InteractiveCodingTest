@@ -157,8 +157,8 @@
                 ]
             },
             {
-                "name": "ToyCar.Buy",
-                "type_override": "ToyCar",
+                "name": "Buy",
+                "type_override": "OpdrachtB",
                 "method": "Buy",
                 "rules": [
                     {

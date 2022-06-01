@@ -58,7 +58,7 @@ internal class TestMethodInvoker {
     }
 
     private IEnumerable<string> ReadStdOutHook() 
-        => _outHook.ToString().Split('\n', 9999, StringSplitOptions.RemoveEmptyEntries);
+        => _outHook.ToString().Split(Environment.NewLine, 9999, StringSplitOptions.RemoveEmptyEntries);
         
 
     public TestMethodInvoker WithArgs(params object[] args) {

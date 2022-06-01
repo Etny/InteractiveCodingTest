@@ -17,18 +17,18 @@ namespace DeelB
             
         }
         
+        // opgave B1: implementeer de Buy() methode zodat ToyCar.Buy() een speelgoedauto oplevert
+        // met volle (100% = 100) charge en 0 afgelegde afstand.
+        public static ToyCar Buy()
+        {
+            return null;
+        }
 
         public class ToyCar
         {
             public int Charge; // in percent, 0-100
             public int DistanceDriven; // in meters
 
-            // opgave B1: implementeer de Buy() methode zodat ToyCar.Buy() een speelgoedauto oplevert
-            // met volle (100% = 100) charge en 0 afgelegde afstand.
-            public static ToyCar Buy()
-            {
-                return null;
-            }
 
             // opgave B2: implementeer de Report() methode die laat zien wat de charge van het autootje is,
             // en hoever hij gereden heeft, iets als "De auto heeft 0 meter gereden, en is voor 100% geladen"
@@ -48,7 +48,7 @@ namespace DeelB
 
         public class BirdCounter
         {
-            public int[] Sightings { get; set; } = Array.Empty<int>();
+            public int[] Sightings = Array.Empty<int>();
 
             // implemententeer GetCountOnDay, dat het aantal vogels op dag "day" teruggeeft
             // (de eerste dag is dag 0)
