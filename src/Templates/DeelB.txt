@@ -20,8 +20,8 @@ namespace DeelB
 
         public class ToyCar
         {
-            public int Charge { get; set; } // in percent, 0-100
-            public int DistanceDriven { get; set; } // in meters
+            public int Charge; // in percent, 0-100
+            public int DistanceDriven; // in meters
 
             // opgave B1: implementeer de Buy() methode zodat ToyCar.Buy() een speelgoedauto oplevert
             // met volle (100% = 100) charge en 0 afgelegde afstand.

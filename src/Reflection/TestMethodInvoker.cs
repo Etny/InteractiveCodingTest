@@ -24,7 +24,7 @@ internal class TestMethodInvoker {
     }
 
     public object Invoke() 
-        => _method.IsStatic ? Invoke(null) : Invoke(_testContext.Instance);
+        => _method.IsStatic ? Invoke(null) : Invoke(_testContext.CreateInstance());
 
     public object Invoke(object instance) {
         var stdIn = Console.In;

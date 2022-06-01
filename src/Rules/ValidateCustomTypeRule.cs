@@ -11,13 +11,13 @@ namespace DynamicCheck.Rules {
     internal class ValidateCustomTypeRules : IRule
     {
         public string TypeName { get; set; } = String.Empty;
-        public IList<PropertyDec> Props { get; set; } = new List<PropertyDec>();
+        public IList<MemberDec> Members { get; set; } = new List<MemberDec>();
 
         public bool Validate(TestContext context)
         {
             var type = context.Assembly!.FindType(TypeName);
+            var instance = context.CreateInstance();
 
-            var instance = context.Instance;
             var invoke_result = context.CreateInvoker().Invoke(instance);
             
             object result = context.Method.ReturnType == type 
@@ -27,14 +27,10 @@ namespace DynamicCheck.Rules {
             if(result == null)
                 return false;
 
-            foreach(var prop in Props) {
-                var backing_prop = type.FindProperty(prop.Name);
-                var backing_value = backing_prop.GetValue(result);
-                if(backing_value == null) return false;
-                if(!prop.ValueEquals(backing_value, backing_prop.PropertyType))
+            foreach(var prop in Members) 
+                if(!prop.Check(result, type)) 
                     return false;
-            }
-
+            
             return true;
         }
     }

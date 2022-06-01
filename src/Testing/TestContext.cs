@@ -14,19 +14,17 @@ namespace DynamicCheck.Testing {
         public MethodInfo Method { get; set; }
         public MethodInfo InstanceMethod { get; set; }
         public List<string> DebugOutput = new();
-        public List<PropertyDec> InstanceProperties { get; set; } = new List<PropertyDec>();
-        public object Instance {
-            get {
-               
-                var instance = InstanceMethod != null ? 
-                                new TestMethodInvoker(InstanceMethod, this).Invoke(null)
-                                : Activator.CreateInstance(Type);
-                
-                foreach(var prop in InstanceProperties)
-                    prop.Set(instance, Type);
+        public List<MemberDec> InstanceProperties { get; set; } = new List<MemberDec>();
 
-                return instance;
-            }
+        public object CreateInstance() {
+            var instance = InstanceMethod != null ? 
+                            new TestMethodInvoker(InstanceMethod, this).Invoke(null)
+                            : Activator.CreateInstance(Type);
+            
+            foreach(var prop in InstanceProperties)
+                prop.Set(instance, Type);
+
+            return instance;
         }
 
         public TestMethodInvoker CreateInvoker() 
