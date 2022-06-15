@@ -8,6 +8,7 @@
     <EmbeddedResource Include="./Templates/DeelA.txt" LogicalName="Template-DeelA"/>
     <EmbeddedResource Include="./Templates/DeelB.txt" LogicalName="Template-DeelB"/>
     <EmbeddedResource Include="./Templates/DeelC.txt" LogicalName="Template-DeelC"/>
+    <EmbeddedResource Include="./Templates/Csproj.txt" LogicalName="Template-Csproj"/>
     <EmbeddedResource Include="./Tests.json" LogicalName="Tests.json"/>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0-1.final"/>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>

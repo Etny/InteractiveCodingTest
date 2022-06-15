@@ -25,6 +25,7 @@ namespace DynamicCheck.Testing {
         public void RunStage(Stage stage) {            
             _logger.LogDebug("Creating file for stage {name}", stage.Name);
             var file = new TestFile(stage);
+            file.Create();
 
             var assembly = new DynamicAssembly(file.FilePath);
 

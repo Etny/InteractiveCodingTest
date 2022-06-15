@@ -5,20 +5,21 @@ namespace DeelB
 {
     internal class OpdrachtB
     {
-       
-        // implementeer de DemandCookie()-methode, die een koekje eist (iets van 
-        // "Geef me een koekje! Ik wil een koekje!", waarop de gebruiker een woord intypt
-        // (gebruik Console.ReadLine();, bv gift = Console.ReadLine();
-        // Als het gegevene GEEN koekje is, maar bijvoorbeeld een fiets, druk af
-        // "Ik wil geen fiets! Ik wil een koekje!" - en ga weer terug naar het koekjes vragen
-        // Zeg anders "Dank je! Mjam mjam mjam" en verlaat/beëindig de methode
+        // Opgave B1: implementeer de DemandCookie methode, die uit 4 stappen bestaat:
+        // 1 - Vraag om een koekje: print via Console.WriteLine "Geef me een koekje! Ik wil een koekje!".
+        // 2 - Neem iets aan: lees in wat je gegeven wordt via Console.ReadLine.
+        // 3 - Check of het een koekje is: als je de string "koekje" krijgt, print dan "Dank je! Mjam mjam mjam" en return.
+        // 4 - Wordt boos als het geen koekje is: als je een andere string krijgt, print dan "Ik wil geen (ding)! Ik wil een koekje!",
+        //                                        waar (ding) hetgene is dat je hebt ingelezen, en ga dan terug naar stap 2.
         public static void DemandCookie()
         {
-            
+            string vraag = "Geef me een koekje! Ik wil een koekje!";
+            string bedankt = "Dank je! Mjam mjam mjam";
+            string boos = "Ik wil geen ????! Ik wil een koekje!";
         }
         
-        // opgave B1: implementeer de Buy() methode zodat ToyCar.Buy() een speelgoedauto oplevert
-        // met volle (100% = 100) charge en 0 afgelegde afstand.
+        // Opgave B2: implementeer Buy:
+        // return een nieuwe ToyCar met Charge = 100 en DistanceDriven = 0
         public static ToyCar Buy()
         {
             return null;
@@ -26,19 +27,21 @@ namespace DeelB
 
         public class ToyCar
         {
-            public int Charge; // in percent, 0-100
-            public int DistanceDriven; // in meters
+            public int Charge;          // in procent, 0-100
+            public int DistanceDriven;  // in meters
 
 
-            // opgave B2: implementeer de Report() methode die laat zien wat de charge van het autootje is,
-            // en hoever hij gereden heeft, iets als "De auto heeft 0 meter gereden, en is voor 100% geladen"
+            // Opgave B3: implementeer Report:
+            // Print "De auto heeft X meter gereden, en is voor Y% geladen",
+            // waar X DistanceDriven is en Y Charge
             public void Report()
             {
-            
+                string report = "De auto heeft ??? meter gereden, en is voor ???% geladen";
             }
 
-            // opgave B3: implementeer de Drive() methode die, als de charge 5 of groter is, de auto 20 meter 
-            // verder laat rijden en de charge met 5 verminderd. Als de charge lager dan 5 is, moet niks veranderen.
+            // Opgave B4: implementeer Drive:
+            // Als Charge 5 of meer is, 'rijdt' de auto 20 meter (door DistanceDriven met 20 de incrementeren), 
+            // maar verliest hij 5% batterij (door Charge met 5 te decrimeren). Als Charge lager is dan 5 gebeurt er niks.
             public void Drive()
             {
                 
@@ -48,41 +51,48 @@ namespace DeelB
 
         public class BirdCounter
         {
+            // Een array die het aantal gespotte vogels bevat per dag, waar de dag de index is.
+            // Data van eerdere dagen zit vooraan, en data van recentere dagen achteraan.
             public int[] Sightings = Array.Empty<int>();
 
-            // implemententeer GetCountOnDay, dat het aantal vogels op dag "day" teruggeeft
-            // (de eerste dag is dag 0)
+            // Opdracht B5: implemententeer GetCountOnDay:
+            // Return hoevel vogels er op 'day' zijn gezien
             public int GetCountOnDay(int day)
             {
                 return -1;
             }
 
-            // implementeer GetTotalDays, welke het aantal dagen teruggeeft dat je vogels hebt gespot
+            // Opdracht B6: implementeer GetTotalDays:
+            // Return van hoeveel dagen je data over gespotte vogels hebt
             public int GetTotalDays()
             {
                 return -1;
             }
 
-            // implementeer GetCountYesterday, dat teruggeeft hoeveel vogels je op de meest recente (laatste) dag zag
+            // Opdracht B7: implementeer GetCountYesterday:
+            // Return hoeveel vogels je op de meest recente dag hebt gezien
             public int GetCountYesterday()
             {
                 return -1;
             }
 
-            // return als een tupple (int, int) de dag waarop je de meeste vogels zag, en hoeveel vogels je op
-            // die dag zag, dus (beste dag, hoeveel vogels)
+            // Opdracht B8: implementeer MostSuccesfulDay:
+            // Return als een tupple (int, int) de dag waarop je de meeste vogels zag,
+            // en hoeveel vogels je op die dag zag, dus (beste dag, aantal vogels)
             public (int, int) MostSuccessfulDay()
             {
                 return (-1, -1);
             }
 
-            // implementeer TotalSightings, wat teruggeeft hoeveel vogels je in het totaal hebt gezien.
+            // Opdracht B9: implementeer TotalSightings:
+            // Return hoeveel vogels je met alle dagen bij elkaar totaal hebt gezien
             public int TotalSightings()
             {
                 return -1;
             }
 
-            // implementeer CountBusyDays, wat teruggeeft op hoeveel dagen je vijf vogels (of meer) hebt gespot.
+            // Opdracht B10: implementeer CountBusyDays:
+            // Return het aantal dagen waarop je 5 of meer vogels hebt gespot
             public int CountBusyDays()
             {
                 return -1;

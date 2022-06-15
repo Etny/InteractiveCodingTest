@@ -12,13 +12,14 @@ namespace DeelA {
             return -1;
         } 
 
+        // Hour is een het huidige uur, in 24-urige notatie (dus van 0-23)
         // Als hour minder is dan 12, return "Goedemorgen", anders "Goedemiddag" 
         // (check je spelling!)
         public static string Opgave3(int hour) {
             return null;
         }
 
-        // Schrijf de nummers 1 tot en met 5 met Console.WriteLine
+        // Schrijf de nummers 1 tot en met 5 via Console.WriteLine
         // De functie Console.WriteLine mag maar 1 keer voorkomen, en je mag geen strings gebruiken
         public static void Opgave4() {
             // Console.WriteLine(0);

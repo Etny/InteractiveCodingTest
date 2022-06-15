@@ -9,19 +9,25 @@ namespace DynamicCheck.IO {
         public readonly string FilePath;
         public DateTime LastWrite { get; private set; } = DateTime.MinValue;
 
+        private readonly Stage _stage;
+
         public TestFile(string filePath)
         {
             FilePath = filePath;
         }
 
         public TestFile(Stage stage){
+            _stage = stage;
             FilePath = "./" + stage.FileName + ".cs";
+        }
+
+        public void Create() {
             if(File.Exists(FilePath)) return;
             
             using var file = File.Create(FilePath);
             using var template = Assembly.GetExecutingAssembly()
-                                    .GetManifestResourceStream($"Template-{stage.FileName}")
-                                    ?? throw new FileNotFoundException($"Failed to find Manifest Resource 'DynamicCheck.{stage.FileName}.txt'");
+                                    .GetManifestResourceStream($"Template-{_stage.FileName}")
+                                    ?? throw new FileNotFoundException($"Failed to find Manifest Resource 'DynamicCheck.{_stage.FileName}.txt'");
 
             using var reader = new StreamReader(template);
             using var writer = new StreamWriter(file);

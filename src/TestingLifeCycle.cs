@@ -37,6 +37,8 @@ internal class TestingLifeCycle {
         _progressTracker.ReadProgress();
         _messageWriter.ShowStartUp(_stageProvider.GetStages().Count);
 
+        new FakeProjectFile().Create();
+
         while(_stageTracker.HasStage) {
             StartStage(_stageTracker.CurrentStage!);
             _stageTracker.Progress();

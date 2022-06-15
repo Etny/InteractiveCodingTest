@@ -6,8 +6,9 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using DynamicCheck.Rules;
+using DynamicCheck.Testing;
 
-namespace DynamicCheck.Testing {
+namespace DynamicCheck.Rules {
     internal class RuleDecJsonConverter : JsonConverter
     {
         private static readonly Lazy<Dictionary<string, Type>> Rules = new(() => 
